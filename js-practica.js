@@ -4,6 +4,7 @@
   veis en este repositorio. En caso de que no os funcione, contactadme por discord.
 */
 
+const { get } = require('http');
 const { exit } = require('process');
 
 const students = [{
@@ -34,6 +35,12 @@ const readline = require('readline').createInterface({
   output: process.stdout
 });
 
+sum = (array) => {
+  return array.reduce((valueA, valueB) => valueA + valueB, 0)
+}
+
+meanAverage =(array) => {
+  return sum(array) / array.length};
 
 /*1 Mostrar en formato de tabla todos los alumnos.*/
 optionsAvailable[1]();
@@ -136,23 +143,16 @@ getYoungestStudent = (studentsArray) => {
 }
 
 /*12 Mostrar por consola la edad media de todos los alumnos de la clase.*/
-
-const median = array => {
-  const mid = Math.floor(array.length / 2),
-    nums = [...array].sort((a, b) => a - b);
-  return array.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
-};
-
-getAgeMedia = (studentsArray) => {
+getAgeAverage = (studentsArray) => {
   studentsAge = []
   for (let index = 0; index < studentsArray.length; index++) {
     studentsAge.push(studentsArray[index].age)
   };
-  return console.log(median(studentsAge))
+  return console.log(meanAverage(studentsAge))
 }
 
 /*13 Mostrar por consola la edad media de las chicas de la clase.*/
-getAgeMedia(getFemalesList(students));
+getAgeAverage(getFemalesList(students));
 
 /*14 Añadir nueva nota a los alumnos. Por cada alumno de la clase, tendremos que calcular una nota de forma aleatoria(número entre 0 y 10) y añadirla a su listado de notas.*/
 addGrades = (studentsArray) => {
@@ -165,16 +165,8 @@ addGrades = (studentsArray) => {
 /*15 Ordenar el array de alumnos alfabéticamente según su nombre. */
 students.sort((itemA, itemB) => itemA.name.toLowerCase().localeCompare(itemB.name.toLowerCase()));
 
-
-/*
-16 Mostrar por consola el alumno de la clase con las mejores notas.
-El alumno con mejores notas es aquel cuyo sumatorio de todas sus notas es el valor más alto de todos.
-*/
-
-sum = (array) => {
-  return array.reduce((valueA, valueB) => valueA + valueB, 0)
-}
-
+/*16 Mostrar por consola el alumno de la clase con las mejores notas.
+El alumno con mejores notas es aquel cuyo sumatorio de todas sus notas es el valor más alto de todos.*/
 getBestStudents = (studentsArray) => {
   let bestStudent = [];
   for (let index = 0; index < studentsArray.length; index++) {
@@ -189,9 +181,30 @@ getBestStudents = (studentsArray) => {
   return bestStudent
 }
 
+getNames(getBestStudents(students))
 
-/*
-### 17- Mostrar por consola la nota media más alta de la clase y el nombre del alumno al que pertenece.
+/*17 Mostrar por consola la nota media más alta de la clase y el nombre del alumno al que pertenece.*/
+getStudentsNamesAndGradeAverage = (studentsArray) => {
+  for (let index = 0; index < studentsArray.length; index++) {
+    console.log(studentsArray[index].name+ ' ' +Math.round(((meanAverage(studentsArray[index].examScores)) + Number.EPSILON) * 100) / 100)
+  }
+}
 
-### 18- Añadir un punto extra a cada nota existente de todos los alumnos. Recordad que la nota máxima posible es 10. Si los alumnos aún no tienen registrada ninguna nota, les pondremos un 10.
+/*### 18- Añadir un punto extra a cada nota existente de todos los alumnos. Recordad que la nota máxima posible es 10. Si los alumnos aún no tienen registrada ninguna nota, les pondremos un 10.
 */
+addGradePoint = (grades) => {
+  if  (grades.length === 0) {
+    grades.push(10)
+  } else { for (let index = 0; index < grades.length; index++) {
+    if (grades[index] < 10) {
+      grades[index] += 1}
+    }
+  }
+  return grades
+}
+
+addPointsToAll = (studentsArray) => {
+  for (let index = 0; index < studentsArray.length; index++) {
+    addGradePoint(studentsArray[index].examScores)
+  }
+}
