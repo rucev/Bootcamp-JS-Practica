@@ -47,7 +47,7 @@ getNames = (studentsArray) => {
   for (let index = 0; index < studentsArray.length; index++) {
     names.push(studentsArray[index].name)
   };
-  console.log('All names:' + names.join())
+  console.log(names.join())
 };
 
 /*4 Eliminar el último alumno de la clase.*/
@@ -160,9 +160,38 @@ addGrades = (studentsArray) => {
     studentsArray[index].examScores.push(Math.floor(Math.random() * 11))
   };
   return studentsArray
-}
+};
 
 /*15 Ordenar el array de alumnos alfabéticamente según su nombre. */
+students.sort((itemA, itemB) => itemA.name.toLowerCase().localeCompare(itemB.name.toLowerCase()));
 
-students.sort((itemA, itemB) => itemA.name.toLowerCase().localeCompare(itemB.name.toLowerCase()))
 
+/*
+16 Mostrar por consola el alumno de la clase con las mejores notas.
+El alumno con mejores notas es aquel cuyo sumatorio de todas sus notas es el valor más alto de todos.
+*/
+
+sum = (array) => {
+  return array.reduce((valueA, valueB) => valueA + valueB, 0)
+}
+
+getBestStudents = (studentsArray) => {
+  let bestStudent = [];
+  for (let index = 0; index < studentsArray.length; index++) {
+    if (bestStudent.length === 0) {
+      bestStudent.push(studentsArray[index])
+    } else if (sum(studentsArray[index].examScores) > sum(bestStudent[0].examScores)){
+      bestStudent[0] = studentsArray[index]
+    } else if (sum(studentsArray[index].examScores) === sum(bestStudent[0].examScores)){
+      bestStudent.push(studentsArray[index])
+    };
+  }
+  return bestStudent
+}
+
+
+/*
+### 17- Mostrar por consola la nota media más alta de la clase y el nombre del alumno al que pertenece.
+
+### 18- Añadir un punto extra a cada nota existente de todos los alumnos. Recordad que la nota máxima posible es 10. Si los alumnos aún no tienen registrada ninguna nota, les pondremos un 10.
+*/
