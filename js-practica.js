@@ -1,3 +1,5 @@
+const readline = require("readline")
+
 /* 
 Código base del challenge
 */
@@ -22,11 +24,6 @@ const availableGenders = ['male', 'female'];
 /* 
 Funciones y tal
 */
-
-const readline = require('readline').createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
 
 sum = (array) => {
   return array.reduce((valueA, valueB) => valueA + valueB, 0)
@@ -169,7 +166,7 @@ Menu de opciones
 const optionsAvailable = [{
   id: 0,
   description: 'exit',
-  function: () => exit()
+  function: () => {throw new Error('Opción no disponible. Aplicación cerrada.')}
   },
   {
   id: 1,
@@ -262,3 +259,40 @@ const optionsAvailable = [{
   function: () => addPointsToAll(students)
 }
 ]
+
+/*
+Ejecución del programa y del menu
+*/
+
+const showMenu = () => {
+  console.log('Opciones')
+  for (let index = 1; index < optionsAvailable.length; index++) {
+    console.log('\t'+optionsAvailable[index].id+'\t'+optionsAvailable[index].description)
+  };
+}
+
+const question = () => {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  })
+  showMenu()
+  rl.question('\nElige el número de la opción qué quieres hacer\n\t',  (option) => {
+    option = parseInt(option)
+    if (option > 0 && option < optionsAvailable.length) {
+      optionsAvailable[option].function()
+    } else {
+      optionsAvailable[0].function()
+    }
+    rl.close();
+    question()
+  });
+}
+
+
+question()
+
+
+
+
+
