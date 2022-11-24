@@ -137,13 +137,13 @@ const optionsAvailable = [
     description: "Ordenar al alumnado alfabéticamente según su nombre.",
     function: () =>
       students.sort((itemA, itemB) =>
-        itemA.name.toLowerCase().localeCompare(itemB.name.toLowerCase())
+        itemA.name.localeCompare(itemB.name)
       ),
   },
   {
     id: 16,
     description:
-      "Mostrar por consola el nombre del/la estudiante con las mejores notas.",
+      "Mostrar por consola el nombre del/la estudiante con las mejores notas (en base a la suma total, NO la media)",
     function: () => {
       console.log("\n" + "Estudiante/s con mejores notas:");
       getNames(getBestStudents(students));
