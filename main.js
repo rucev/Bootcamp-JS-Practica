@@ -1,5 +1,5 @@
-import readline from "readline"; 
-import  { optionsAvailable } from "./options-menu.js";
+import readline from "readline";
+import { optionsAvailable } from "./options-menu.js";
 
 /*
 Ejecución del programa y del menu
@@ -17,25 +17,30 @@ const showMenu = () => {
   }
 };
 
-const question = () => {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const main = () => {
   showMenu();
-  rl.question(
-    "\nElige el número de la opción qué quieres hacer\n\t",
-    (option) => {
-      option = parseInt(option);
-      if (option > 0 && option < optionsAvailable.length) {
-        optionsAvailable[option].function();
-      } else {
-        optionsAvailable[0].function();
+  const promise = new Promise((resolve, reject) => {
+    rl.question(
+      "\nElige el número de la opción qué quieres hacer\n\t",
+      (option) => {
+        rl.pause();
+        if (option > 0 && option < optionsAvailable.length) {
+          resolve(optionsAvailable[option].function());
+        } else {
+          reject(optionsAvailable[0].function() + process.exit(0));
+        }
       }
-      rl.close();
-      question();
-    }
-  );
+    );
+  });
+
+  promise.then((value) => {
+    main(), value;
+  });
 };
 
-question();
+main();

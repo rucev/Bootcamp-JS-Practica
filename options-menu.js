@@ -24,9 +24,7 @@ const optionsAvailable = [
   {
     id: 0,
     description: "exit",
-    function: () => {
-      throw new Error("Opción no disponible. Aplicación cerrada.");
-    },
+    function: () => console.log("\nERROR: Opción no disponible. Aplicación cerrada."),
   },
   {
     id: 1,
@@ -100,7 +98,7 @@ const optionsAvailable = [
   },
   {
     id: 10,
-    description: "Añadir estudiante random.",
+    description: "Añadir estudiante random (sin notas).",
     function: () => addRandomStudent(students),
   },
   {
